@@ -194,11 +194,11 @@ Opcionais, em qualquer momento depois do passo 3:
 
 ## Publicar em um servidor
 
-O app precisa de dois serviços: um que rode Node.js, sempre ligado e atrás de HTTPS, e um PostgreSQL gerenciado, com cópias de segurança automáticas. O caminho previsto é **Fly.io + Supabase**, os dois na região de São Paulo. O `Dockerfile` também serve para outros provedores.
+O app precisa de um lugar que rode Node.js atrás de HTTPS e de um PostgreSQL gerenciado, com cópias de segurança automáticas. O caminho escolhido é **Vercel + Supabase** (seção 2). A Fly.io continua como alternativa (seção 3), com o `Dockerfile` e o `fly.toml`.
 
-> O app já foi testado em modo de produção com um PostgreSQL de verdade neste computador. O `Dockerfile` e o `fly.toml` ainda não foram usados, porque isso depende da conta na Fly.io.
+> O app já foi testado em modo de produção com um PostgreSQL de verdade neste computador. A imagem do `Dockerfile` foi montada na Fly.io sem erros. A publicação na Vercel ainda não foi feita.
 
-Rode **uma cópia só** do app: com duas, os lembretes podem sair repetidos, e o limite de tentativas, que fica na memória, deixa de valer entre elas.
+Na Fly.io, rode **uma cópia só** do app: com duas, os lembretes podem sair repetidos. Na Vercel, quem dispara os lembretes é o agendador dela, uma vez por minuto.
 
 > **Onde está o DNS:** desde 04/11/2026, os servidores DNS do domínio são os da Staycloud, então os registros são criados no cPanel dela, e não no Registro.br. A raiz `nuvexx.com.br` e o `www` são da fila de espera, e o app fica em `app.nuvexx.com.br`. O plano da Staycloud foi pago por um mês: antes de ele acabar, volte os servidores DNS para os do Registro.br e recrie lá todos os registros. Sem isso, param o app, a autenticação do e-mail e a caixa `contato@`.
 
@@ -216,7 +216,45 @@ O `npm run fly:segredos` coloca a senha no lugar de `[YOUR-PASSWORD]` e confere 
 
 > A conferência do certificado foi testada contra o Supabase de verdade, com um usuário falso. A conexão com um projeto real ainda não foi testada.
 
-### 2. App na Fly.io
+### 2. App na Vercel
+
+Na Vercel, o app não fica ligado o tempo todo: cada pedido acorda uma instância. Por isso:
+
+- **Rotina de cada minuto:** o agendador da Vercel chama `/cron/minuto` a cada minuto, com o segredo `CRON_SECRET`. Sem esse segredo, o endereço não existe para ninguém.
+- **WhatsApp:** o app responde à Meta e continua processando a mensagem, e a Vercel espera esse trabalho terminar.
+- **Entrada:** `api/index.js` monta o app e recebe todos os endereços, inclusive as páginas e os arquivos de `public`. Assim, os cabeçalhos de segurança valem para tudo.
+- **Região:** `pdx1` (Oregon), a mesma do banco atual no Supabase. Se o banco mudar para São Paulo, troque para `gru1` no `vercel.json`.
+
+**Plano:** a Vercel proíbe uso comercial no plano gratuito, e nele o agendador roda só uma vez por dia, o que tiraria os lembretes do ar. Use o plano **Pro**, de US$ 20 por mês. No gratuito, a publicação é recusada por causa do agendamento a cada minuto.
+
+1. **Envie o código ao GitHub** (`git push`) e ligue o repositório a um projeto da Vercel. A cada envio, a Vercel publica de novo.
+2. **Variáveis**, em Settings > Environment Variables, no ambiente Production:
+
+   | Variável | Valor |
+   |---|---|
+   | `AMBIENTE` | `producao` |
+   | `APP_URL` | `https://app.nuvexx.com.br` |
+   | `APP_TIMEZONE` | `America/Sao_Paulo` |
+   | `CABECALHO_IP_CLIENTE` | `x-real-ip` |
+   | `BANCO_CONEXOES` | `3` |
+   | `NODEJS_HELPERS` | `0`, para a Vercel entregar o pedido como chega, sem interpretar o corpo antes do app |
+   | `EMAIL_REMETENTE`, `CADASTRO_ABERTO`, `TESTE_GRATIS_DIAS`, `EMPRESA_NOME`, `EMPRESA_CNPJ`, `EMPRESA_EMAIL` | Os mesmos do `fly.toml` |
+   | `DATABASE_URL` | A conexão do Session pooler, como o Supabase mostra, com `[YOUR-PASSWORD]` |
+   | `DATABASE_SENHA` | A senha do banco. O app a coloca no lugar do marcador |
+   | `RESEND_CHAVE` | A chave de API do Resend |
+   | `EMAILS_LIBERADOS` | Quem pode criar conta, separado por vírgula |
+   | `SESSAO_SEGREDO`, `CRIPTO_CHAVE`, `CRON_SECRET` | Gerados pelo comando abaixo |
+
+   Este comando copia, sem mostrar na tela, todas as variáveis menos as quatro que só você tem (`DATABASE_URL`, `DATABASE_SENHA`, `RESEND_CHAVE` e `EMAILS_LIBERADOS`): as fixas vêm do `fly.toml`, ajustadas para a Vercel, e os três segredos são gerados na hora. No painel, cole no campo do nome, e a Vercel separa uma por linha. Rode uma vez só, porque trocar `SESSAO_SEGREDO` encerra as sessões, e trocar `CRIPTO_CHAVE` desconecta todos do Google.
+
+   ```bash
+   npm run vercel:segredos
+   ```
+
+3. **Domínio:** em Settings > Domains, adicione `app.nuvexx.com.br` e, no cPanel, troque o destino do `CNAME` `app` pelo que a Vercel indicar. Apague o `CNAME` `_acme-challenge.app`, que era da Fly.io.
+4. Publique de novo depois de mudar variáveis: a Vercel só lê as variáveis na publicação.
+
+### 3. Alternativa: app na Fly.io
 
 **Rode tudo na pasta principal do projeto.** A pasta `fila-de-espera` tem o próprio `fly.toml`: um `fly deploy` dentro dela publica a fila, e não o app.
 
@@ -273,10 +311,11 @@ Quando a fila de espera sair do ar, decida o que fica na raiz do domínio. Se fo
 |---|---|
 | `AMBIENTE` | `producao` |
 | `APP_URL` | Endereço público com HTTPS, sem barra no final |
-| `CABECALHO_IP_CLIENTE` | Cabeçalho em que o provedor informa o endereço do visitante. Na Fly.io: `fly-client-ip` |
-| `DATABASE_URL` | Conexão do PostgreSQL. Inclua `sslmode=require` se o provedor pedir |
+| `CABECALHO_IP_CLIENTE` | Cabeçalho em que o provedor informa o endereço do visitante. Na Vercel: `x-real-ip`. Na Fly.io: `fly-client-ip` |
+| `DATABASE_URL` | Conexão do PostgreSQL. Com `[YOUR-PASSWORD]`, defina também `DATABASE_SENHA` |
 | `SESSAO_SEGREDO`, `CRIPTO_CHAVE` | Valores aleatórios longos |
-| `SMTP_URL`, `EMAIL_REMETENTE` | Serviço de e-mail (próxima seção) |
+| `RESEND_CHAVE` (ou `SMTP_URL`), `EMAIL_REMETENTE` | Serviço de e-mail (próxima seção) |
+| `CRON_SECRET` | Só na Vercel: o segredo do agendador |
 | `EMPRESA_NOME`, `EMPRESA_CNPJ`, `EMPRESA_EMAIL` | Aparecem nos termos. Sem eles, o app não abre o cadastro |
 
 Em produção, o app se recusa a iniciar se faltar uma delas, e os simuladores deixam de existir.

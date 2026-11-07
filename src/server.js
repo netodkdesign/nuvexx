@@ -1,4 +1,4 @@
-import { randomBytes } from 'node:crypto';
+import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { resolve } from 'node:path';
@@ -126,7 +126,14 @@ async function readJson(req) {
   }
 }
 
-export function createApp({ config, db, google, mailer = createMailer({ config }), sendText = sendWhatsAppText, log = console }) {
+// Compara pelo resumo de cada lado, para o tempo da comparação não revelar nada do segredo.
+const sameSecret = (given, expected) => timingSafeEqual(createHash('sha256').update(given).digest(), createHash('sha256').update(expected).digest());
+
+export const createApp = (options) => createServer(createHandler(options));
+
+// Devolve a função que atende cada pedido. A promessa dela só termina quando o trabalho todo acabou,
+// inclusive o que continua depois da resposta, como o processamento das mensagens do WhatsApp.
+export function createHandler({ config, db, google, mailer = createMailer({ config }), sendText = sendWhatsAppText, log = console, tick = null }) {
   const assistant = createAssistant({ db, config, google, mailer, log });
   const wwwHost = `www.${new URL(config.appUrl).host}`;
   const loginByEmail = createLimiter({ max: 10, windowMs: 15 * MINUTE_MS });
@@ -1122,6 +1129,15 @@ export function createApp({ config, db, google, mailer = createMailer({ config }
     return send(res, 200, html, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' });
   }
 
+  // Na Vercel, o agendador dela chama este endereço a cada minuto, com o segredo combinado: é o relógio
+  // dos lembretes, do resumo do dia e da sincronização com o Google. Para qualquer outro, ele não existe.
+  async function handleCron(req, res) {
+    const expected = config.cronSecret ? `Bearer ${config.cronSecret}` : '';
+    if (!tick || !expected || !sameSecret(String(req.headers.authorization ?? ''), expected)) throw new HttpError(404, 'Página não encontrada.');
+    await tick();
+    return sendJson(res, 200, { ok: true });
+  }
+
   async function route(req, res) {
     // A sessão e a volta do Google valem em um endereço só: quem digita "www" vai para o oficial.
     if (req.headers.host === wwwHost && (req.method === 'GET' || req.method === 'HEAD')) {
@@ -1137,6 +1153,7 @@ export function createApp({ config, db, google, mailer = createMailer({ config }
     }
     if (pathname === '/webhook' && req.method === 'POST') return handleWebhookPost(req, res);
     if (pathname === '/health' && req.method === 'GET') return sendJson(res, 200, { ok: true });
+    if (pathname === '/cron/minuto' && req.method === 'GET') return handleCron(req, res);
     if (pathname === '/google/conectar' && req.method === 'GET') return handleGoogleStart(res, url);
     if (pathname === '/google/entrar' && req.method === 'GET') return handleGoogleLogin(req, res);
     if (pathname === '/google/retorno' && req.method === 'GET') return handleGoogleReturn(req, res, url);
@@ -1151,14 +1168,14 @@ export function createApp({ config, db, google, mailer = createMailer({ config }
     throw new HttpError(404, 'Página não encontrada.');
   }
 
-  return createServer((req, res) => {
+  return (req, res) => {
     for (const [name, value] of Object.entries(SECURITY_HEADERS)) res.setHeader(name, value);
     if (config.isProduction) res.setHeader('Strict-Transport-Security', 'max-age=31536000');
-    route(req, res).catch((err) => {
+    return route(req, res).catch((err) => {
       if (!(err instanceof HttpError)) log.error(err);
       if (res.headersSent) return res.end();
       if (err instanceof HttpError) return sendJson(res, err.status, { error: err.message });
       return sendJson(res, 500, { error: 'Algo deu errado no servidor.' });
     });
-  });
+  };
 }

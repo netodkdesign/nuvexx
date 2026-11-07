@@ -22,11 +22,13 @@ export function poolOptions(url) {
   return { connectionString: found.length ? address.toString() : url, ssl: { ca: readFileSync(SUPABASE_CA, 'utf8') } };
 }
 
-async function connectPostgres(url, log) {
+async function connectPostgres(url, log, { poolSize = POOL_SIZE, onPool } = {}) {
   const { default: pg } = await import('pg');
   pg.types.setTypeParser(DATE_OID, keepDateAsText);
-  const pool = new pg.Pool({ ...poolOptions(url), max: POOL_SIZE });
+  const pool = new pg.Pool({ ...poolOptions(url), max: poolSize });
   pool.on('error', (err) => log.error(`Banco de dados: ${err.message}`));
+  // Na Vercel, devolve as conexões paradas antes de a instância adormecer.
+  onPool?.(pool);
 
   const wrap = (client) => ({
     query: async (sql, params) => {
@@ -72,6 +74,6 @@ async function connectEmbedded(dataDir) {
   };
 }
 
-export async function connect({ databaseUrl, dataDir, log = console }) {
-  return databaseUrl ? connectPostgres(databaseUrl, log) : connectEmbedded(dataDir);
+export async function connect({ databaseUrl, dataDir, poolSize, onPool, log = console }) {
+  return databaseUrl ? connectPostgres(databaseUrl, log, { poolSize, onPool }) : connectEmbedded(dataDir);
 }

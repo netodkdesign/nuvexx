@@ -1,0 +1,13 @@
+# Só o app vai para a Vercel. Fila de espera, imagens de divulgação, testes e dados locais ficam de fora.
+.env
+.env.*
+data/
+fila-de-espera/
+instagram/
+test/
+scripts/
+*.psd
+# Com um Dockerfile na raiz, a Vercel trataria o projeto como contêiner. Ele é só da Fly.io.
+Dockerfile
+fly.toml
+.dockerignore

@@ -14,9 +14,11 @@
     "desligar": "node scripts/desligar.js",
     "fly:segredos": "node scripts/fly-segredos.js",
     "fly:whatsapp": "node scripts/fly-segredos.js whatsapp",
+    "vercel:segredos": "node scripts/vercel-segredos.js",
     "test": "node --disable-warning=ExperimentalWarning --test --test-timeout=30000 test/"
   },
   "dependencies": {
+    "@vercel/functions": "^3.11.0",
     "nodemailer": "^10.3.1",
     "pg": "^8.23.1"
   },

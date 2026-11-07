@@ -25,6 +25,15 @@ export function ensureEnvFile(path = ENV_PATH) {
 
 const emailList = (value) => (value || '').split(',').map(normalizeEmail).filter(Boolean);
 
+// O Supabase mostra a conexão com este marcador no lugar da senha.
+export const PASSWORD_SLOT = /\[YOUR[-_]PASSWORD\]/i;
+const RESEND_SMTP = 'smtp.resend.com:465';
+
+// Símbolos no login, na chave ou na senha quebrariam o endereço sem esta conversão.
+export const smtpUrl = (login, key, host = RESEND_SMTP) => `smtps://${encodeURIComponent(login)}:${encodeURIComponent(key)}@${host}`;
+export const withDatabasePassword = (url, password) =>
+  (password && PASSWORD_SLOT.test(url) ? url.replace(PASSWORD_SLOT, encodeURIComponent(password)) : url);
+
 export function loadConfig(env = process.env) {
   const port = Number(env.PORT) || 3100;
   return {
@@ -36,14 +45,20 @@ export function loadConfig(env = process.env) {
     clientIpHeader: (env.CABECALHO_IP_CLIENTE || '').toLowerCase(),
     sessionSecret: env.SESSAO_SEGREDO || '',
     encryptionKey: env.CRIPTO_CHAVE || '',
-    databaseUrl: env.DATABASE_URL || '',
+    // No painel da Vercel, a conexão entra como o Supabase mostra, e a senha vai à parte, em DATABASE_SENHA.
+    databaseUrl: withDatabasePassword(env.DATABASE_URL || '', env.DATABASE_SENHA),
+    // Na Vercel, cada instância abre as próprias conexões: lá o número fica menor, para não esgotar o banco.
+    databasePoolSize: Number(env.BANCO_CONEXOES) || 10,
     localDataDir: resolve(ROOT, 'data/pg'),
+    // Segredo que a Vercel manda ao chamar a rotina de cada minuto. Sem ele, a rotina não abre por fora.
+    cronSecret: env.CRON_SECRET || '',
     registration: {
       open: env.CADASTRO_ABERTO === 'true',
       allowed: emailList(env.EMAILS_LIBERADOS),
     },
     email: {
-      smtpUrl: env.SMTP_URL || '',
+      // Com o Resend, basta a chave: o endereço do servidor de e-mail é montado aqui.
+      smtpUrl: env.SMTP_URL || (env.RESEND_CHAVE ? smtpUrl('resend', env.RESEND_CHAVE) : ''),
       from: env.EMAIL_REMETENTE || '',
     },
     product: {

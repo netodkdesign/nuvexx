@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm ci --omit=dev",
+  "buildCommand": "mkdir -p vercel-estatico && touch vercel-estatico/.mantido",
+  "outputDirectory": "vercel-estatico",
+  "regions": ["pdx1"],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "{public,src/certs}/**",
+      "maxDuration": 120
+    }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }],
+  "crons": [{ "path": "/cron/minuto", "schedule": "* * * * *" }]
+}

@@ -9,22 +9,17 @@ import { join, resolve } from 'node:path';
 import { createInterface } from 'node:readline';
 import { Writable } from 'node:stream';
 import { fileURLToPath } from 'node:url';
-import { loadConfig } from '../src/config.js';
+import { loadConfig, PASSWORD_SLOT, smtpUrl } from '../src/config.js';
 import { poolOptions } from '../src/database.js';
 
+export { smtpUrl };
+
 const ROOT = resolve(import.meta.dirname, '..');
-const RESEND_SMTP = 'smtp.resend.com:465';
 // No Resend, o usuário do SMTP é sempre este, e a senha é a chave de API.
 const RESEND_LOGIN = 'resend';
 
-// Símbolos no login ou na chave quebrariam o endereço sem esta conversão.
-export const smtpUrl = (login, key, host = RESEND_SMTP) => `smtps://${encodeURIComponent(login)}:${encodeURIComponent(key)}@${host}`;
-
 export const secretLines = (secrets) =>
   Object.entries(secrets).filter(([, value]) => value).map(([name, value]) => `${name}=${value}`).join('\n');
-
-// O Supabase mostra a conexão com este marcador no lugar da senha.
-const PASSWORD_SLOT = /\[YOUR[-_]PASSWORD\]/i;
 
 export function databaseProblem(url) {
   if (!/^postgres(ql)?:\/\//.test(url)) return 'A conexão começa com postgresql://. No Supabase, clique em Connect e copie a do Session pooler.';
