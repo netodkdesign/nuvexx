@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Retrato de Nina">
+  <defs>
+    <linearGradient id="fundo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c5cefd"/>
+      <stop offset="1" stop-color="#a5b4fc"/>
+    </linearGradient>
+    <clipPath id="circulo"><circle cx="48" cy="48" r="48"/></clipPath>
+  </defs>
+  <g clip-path="url(#circulo)">
+    <rect width="96" height="96" fill="url(#fundo)"/>
+    <g fill="#20140f">
+      <circle cx="48" cy="28" r="24"/>
+      <circle cx="28" cy="33" r="15"/>
+      <circle cx="68" cy="33" r="15"/>
+      <circle cx="24" cy="47" r="11"/>
+      <circle cx="72" cy="47" r="11"/>
+      <circle cx="36" cy="14" r="11"/>
+      <circle cx="60" cy="14" r="11"/>
+    </g>
+    <path fill="#2563eb" d="M12 96c1-18 15-27 36-27s35 9 36 27Z"/>
+    <path fill="#8a5535" d="M40 56h16v12c0 5-3.600 9-8 9s-8-4-8-9Z"/>
+    <path fill="#774528" d="M40 62c2.400 2.200 5 3.300 8 3.300s5.600-1.100 8-3.300v3.600c-2.300 2.100-5 3.200-8 3.200s-5.700-1.100-8-3.200Z"/>
+    <path fill="#9a6240" d="M48 22c-11 0-18.500 8-18.500 19.500 0 13.500 8.300 23 18.500 23s18.500-9.500 18.500-23C66.500 30 59 22 48 22Z"/>
+    <path fill="#20140f" d="M29.500 40c0-9 6-19 18.500-19s18.500 10 18.500 19c-3-5-7-8-12-9.500-4 1.500-9 1.500-13 0-5 1.500-9.500 4.500-12 9.500Z"/>
+    <path fill="none" stroke="#20140f" stroke-width="2.100" stroke-linecap="round" d="M35 37.500c2.200-1.100 4.700-1.300 7-.5M54 37c2.300-.8 4.800-.6 7 .5"/>
+    <ellipse cx="38.500" cy="43" rx="2.200" ry="2.500" fill="#160d09"/>
+    <ellipse cx="57.500" cy="43" rx="2.200" ry="2.500" fill="#160d09"/>
+    <g fill="none" stroke="#f5efe7" stroke-width="1.700">
+      <circle cx="38.500" cy="43" r="6.300"/>
+      <circle cx="57.500" cy="43" r="6.300"/>
+      <path stroke-linecap="round" d="M44.800 42.300c2-.9 4.400-.9 6.400 0"/>
+    </g>
+    <path fill="none" stroke="#774528" stroke-width="1.600" stroke-linecap="round" d="M48 45v5c0 1-.8 1.700-2 1.700"/>
+    <path fill="#6e2d22" d="M41.500 55.500c2.100-.8 4.300-1.200 6.500-1.200s4.400.4 6.500 1.200c-1.500 3-3.700 4.500-6.500 4.500s-5-1.500-6.500-4.500Z"/>
+    <path fill="#fff" d="M43.500 55.800c1.400-.3 3-.5 4.500-.5s3.100.2 4.500.5c-1.200.9-2.700 1.300-4.500 1.300s-3.300-.4-4.500-1.300Z"/>
+  </g>
+</svg>

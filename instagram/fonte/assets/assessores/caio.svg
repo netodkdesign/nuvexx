@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Retrato de Caio">
+  <defs>
+    <linearGradient id="fundo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b76f0"/>
+      <stop offset="1" stop-color="#1c4193"/>
+    </linearGradient>
+    <clipPath id="circulo"><circle cx="48" cy="48" r="48"/></clipPath>
+  </defs>
+  <g clip-path="url(#circulo)">
+    <rect width="96" height="96" fill="url(#fundo)"/>
+    <path fill="#101828" d="M10 96c1-19 15-29 38-29s37 10 38 29Z"/>
+    <path fill="#f4f6f8" d="M38 67h20l-10 13Z"/>
+    <path fill="#0b1220" d="m38 67 10 13-6 6-10-15ZM58 67 48 80l6 6 10-15Z"/>
+    <path fill="#b97f58" d="M40 56h16v12c0 4-3.600 7-8 7s-8-3-8-7Z"/>
+    <path fill="#a66d48" d="M40 62c2.400 2.200 5 3.300 8 3.300s5.600-1.100 8-3.300v3.500c-2.300 2.100-5 3.200-8 3.200s-5.700-1.100-8-3.200Z"/>
+    <ellipse cx="28.500" cy="42" rx="3.500" ry="5.500" fill="#b97f58"/>
+    <ellipse cx="67.500" cy="42" rx="3.500" ry="5.500" fill="#b97f58"/>
+    <path fill="#c98d65" d="M48 16c-12 0-20 8.500-20 22 0 15 8.800 26 20 26s20-11 20-26c0-13.500-8-22-20-22Z"/>
+    <path fill="#2a1d17" d="M28 39c-2-14 6-26 21-26 12 0 21 8 19 26-1-6-4-11-8-13-6 3-16 4-25 1-3 2-6 7-7 12Z"/>
+    <path fill="#2a1d17" d="M30 44c0 12 7 21 18 21s18-9 18-21c-1 5-3 8-6 9-3-2-8-3-12-3s-9 1-12 3c-3-1-5-4-6-9Z" opacity=".88"/>
+    <path fill="#c98d65" d="M41 55c2-1.200 4.400-1.700 7-1.700s5 .5 7 1.700c-1.500 2.800-4 4.300-7 4.300s-5.500-1.500-7-4.300Z"/>
+    <path fill="none" stroke="#7a3f2c" stroke-width="1.800" stroke-linecap="round" d="M43.500 56.300c2.800 1.500 6.200 1.500 9 0"/>
+    <path fill="none" stroke="#2a1d17" stroke-width="2.400" stroke-linecap="round" d="M34.500 35.500c2.300-1.300 5-1.500 7.500-.5M54 35c2.500-1 5.200-.8 7.500.5"/>
+    <ellipse cx="38.500" cy="41" rx="2.300" ry="2.600" fill="#1d1410"/>
+    <ellipse cx="57.500" cy="41" rx="2.300" ry="2.600" fill="#1d1410"/>
+    <path fill="none" stroke="#a66d48" stroke-width="1.700" stroke-linecap="round" d="M48 42v7c0 1.200-1 2-2.500 2"/>
+  </g>
+</svg>

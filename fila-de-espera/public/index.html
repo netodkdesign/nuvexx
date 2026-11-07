@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nuvexx: entre na fila de espera</title>
+  <meta name="description" content="Caio cuida do seu dinheiro, Cris da sua agenda e Nina das suas tarefas. O lançamento oficial é em breve: entre na fila de espera.">
+  <meta property="og:title" content="Nuvexx: entre na fila de espera">
+  <meta property="og:description" content="Escreva ou grave um áudio, e seus assessores anotam e avisam. O lançamento oficial é em breve.">
+  <meta name="theme-color" content="#0B1220">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preload" href="/fontes/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/pagina.css">
+  <script src="/pagina.js" defer></script>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5 10 17.500 19.500 7" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 3 5 6v5.500c0 4.500 2.900 7.900 7 9.500 4.100-1.600 7-5 7-9.500V6Z" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linejoin="round"/><path d="m9 12 2.200 2.200L15.200 10" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-tela" viewBox="0 0 24 24"><rect x="3" y="4.500" width="13" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.800"/><rect x="15" y="9" width="6" height="11" rx="1.500" fill="none" stroke="currentColor" stroke-width="1.800"/><path d="M7 19.500h5" stroke="currentColor" stroke-width="1.800" stroke-linecap="round"/></symbol>
+    <symbol id="i-conversa" viewBox="0 0 24 24"><path d="M4 6.500A2.500 2.500 0 0 1 6.500 4h11A2.500 2.500 0 0 1 20 6.500v7a2.500 2.500 0 0 1-2.500 2.500H11l-4.500 4v-4A2.500 2.500 0 0 1 4 13.500Z" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linejoin="round"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.700 0l3-3a4 4 0 0 0-5.700-5.700l-1 1M14 10a4 4 0 0 0-5.700 0l-3 3a4 4 0 0 0 5.700 5.700l1-1" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round"/></symbol>
+    <symbol id="i-blocos" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.500" fill="none" stroke="currentColor" stroke-width="1.800"/><rect x="13" y="4" width="7" height="7" rx="1.500" fill="none" stroke="currentColor" stroke-width="1.800"/><rect x="4" y="13" width="7" height="7" rx="1.500" fill="none" stroke="currentColor" stroke-width="1.800"/><rect x="13" y="13" width="7" height="7" rx="1.500" fill="none" stroke="currentColor" stroke-width="1.800"/></symbol>
+    <symbol id="i-dados" viewBox="0 0 24 24"><path d="M12 4v10m0 0 4-4m-4 4-4-4M5 19.500h14" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-onda" viewBox="0 0 120 24"><g fill="currentColor"><rect x="0" y="9" width="3" height="6" rx="1.500"/><rect x="6" y="6" width="3" height="12" rx="1.500"/><rect x="12" y="3" width="3" height="18" rx="1.500"/><rect x="18" y="7" width="3" height="10" rx="1.500"/><rect x="24" y="1" width="3" height="22" rx="1.500"/><rect x="30" y="5" width="3" height="14" rx="1.500"/><rect x="36" y="8" width="3" height="8" rx="1.500"/><rect x="42" y="4" width="3" height="16" rx="1.500"/><rect x="48" y="0" width="3" height="24" rx="1.500"/><rect x="54" y="6" width="3" height="12" rx="1.500"/><rect x="60" y="9" width="3" height="6" rx="1.500"/><rect x="66" y="3" width="3" height="18" rx="1.500"/><rect x="72" y="7" width="3" height="10" rx="1.500"/><rect x="78" y="2" width="3" height="20" rx="1.500"/><rect x="84" y="5" width="3" height="14" rx="1.500"/><rect x="90" y="8" width="3" height="8" rx="1.500"/><rect x="96" y="6" width="3" height="12" rx="1.500"/><rect x="102" y="4" width="3" height="16" rx="1.500"/><rect x="108" y="9" width="3" height="6" rx="1.500"/><rect x="114" y="7" width="3" height="10" rx="1.500"/></g></symbol>
+    <symbol id="i-carta" viewBox="0 0 24 24"><rect x="3.500" y="5.500" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.800"/><path d="m4 7.500 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <header class="topo" id="topo">
+    <a class="topo-logo" href="#inicio" aria-label="Nuvexx, voltar ao início"><img src="/logo-fundo-escuro.png" alt="" width="1420" height="287"></a>
+    <nav class="topo-menu" id="menu" aria-label="Seções da página">
+      <a href="#assessores">Assessores</a>
+      <a href="#experimente">Experimente</a>
+      <a href="#financas">Finanças</a>
+      <a href="#agenda">Agenda</a>
+      <a href="#tarefas">Tarefas</a>
+      <a href="#perguntas">Perguntas</a>
+    </nav>
+    <a class="botao-contorno" href="#fila">Entrar na fila <span aria-hidden="true">→</span></a>
+    <button class="topo-abrir" id="abrir-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir o menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+    <section class="heroi" id="inicio">
+      <span class="heroi-fim" aria-hidden="true"></span>
+      <div class="heroi-texto">
+        <p class="selo"><span class="selo-ponto"></span><strong>Lançamento oficial</strong> em breve</p>
+        <h1>Escreva ou fale.<br>Seu dia fica em ordem.</h1>
+        <p class="subtitulo">Caio cuida do seu dinheiro, Cris da sua agenda e Nina das suas tarefas. Escreva pelo site ou grave um áudio no WhatsApp, do seu jeito, e eles anotam e avisam.</p>
+        <a class="botao" href="#fila">Entrar na fila de espera <span aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="heroi-palco">
+        <ul class="flutuantes" aria-hidden="true">
+          <li class="flutuante f1 caio"><span>🛒 Mercado</span><strong>R$ 50,00</strong></li>
+          <li class="flutuante f2 cris"><span>📅 Dentista</span><strong>quinta, 15:00</strong></li>
+          <li class="flutuante f3 nina"><span>📝 Pagar luz</span><strong>sexta, 15:00</strong></li>
+          <li class="flutuante f4 caio"><span>🚗 Transporte</span><strong>R$ 23,50</strong></li>
+        </ul>
+        <div class="celular-moldura">
+        <span class="celular-halo" aria-hidden="true"></span>
+        <span class="celular-aro" aria-hidden="true"></span>
+        <div class="celular" role="img" aria-label="Conversa de exemplo: uma pessoa escreve um gasto, grava um áudio com um compromisso e escreve uma tarefa, e cada assessor responde.">
+          <div class="tela">
+            <div class="barra-celular"><span>09:00</span><span class="ilha"></span><span class="sinais"></span></div>
+            <div class="app-topo"><img src="/simbolo.png" alt="" width="36" height="36"><div><strong>Nuvexx</strong><small>Caio, Cris e Nina</small></div></div>
+            <div class="conversa" id="conversa-topo">
+              <div class="bolha sai"><p>gastei 50 no mercado</p></div>
+              <div class="bolha entra caio">
+                <div class="quem"><img src="/assessores/caio.svg" alt="" width="20" height="20"><strong>Caio</strong><small>Assessor Financeiro</small></div>
+                <p>✅ <strong>R$ 50,00</strong> em 🛒 Mercado</p>
+                <p>Mercado, hoje.</p>
+              </div>
+              <div class="bolha sai"><div class="audio"><span class="audio-tocar"></span><svg class="onda"><use href="#i-onda"/></svg><small>0:04</small></div></div>
+              <div class="bolha entra cris">
+                <div class="quem"><img src="/assessores/cris.svg" alt="" width="20" height="20"><strong>Cris</strong><small>Assessora de Agenda</small></div>
+                <p>🎤 Ouvi: "Marca dentista quinta às três da tarde."</p>
+                <p>✅ <strong>Dentista</strong>: quinta, 12/11, às 15:00.</p>
+                <p>Te aviso 1 hora antes.</p>
+                <p>Ouvi errado? Mande <strong>desfazer</strong>.</p>
+              </div>
+              <div class="bolha sai"><p>tarefa pagar luz sexta às 15h</p></div>
+              <div class="bolha entra nina">
+                <div class="quem"><img src="/assessores/nina.svg" alt="" width="20" height="20"><strong>Nina</strong><small>Assessora de Tarefas</small></div>
+                <p>✅ <strong>Pagar luz</strong>: sexta, 13/11, às 15:00.</p>
+                <p>Te aviso 2 horas antes.</p>
+              </div>
+            </div>
+            <div class="app-entrada"><span class="app-entrada-texto">Escreva ou grave</span><span class="app-entrada-voz">🎤</span></div>
+            <div class="app-barra"></div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao promessa">
+      <div class="contem">
+        <div class="promessa-texto revelar">
+          <h2>Gasto que sumiu da cabeça, consulta esquecida, conta que venceu ontem. Quase sempre, só faltou anotar.</h2>
+          <p class="subtitulo">Escreva ou grave um áudio na hora, do jeito que vier. Cada mensagem vai para o assessor certo, entra no lugar certo e, se tiver horário, vira aviso.</p>
+          <a class="chamada" href="#fila">Entrar na fila de espera <span aria-hidden="true">→</span></a>
+        </div>
+
+        <div class="triagem revelar" id="triagem">
+          <div class="triagem-caixa" aria-hidden="true">
+            <span id="triagem-texto" class="triagem-texto">gastei 50 no mercado</span>
+            <span class="triagem-enviar">↑</span>
+          </div>
+          <div class="triagem-colunas">
+            <div class="coluna caio">
+              <h3><img src="/assessores/caio.svg" alt="" width="28" height="28"> Caio</h3>
+              <ul data-coluna="caio">
+                <li><strong>R$ 50,00</strong><span>🛒 Mercado</span></li>
+                <li><strong>R$ 62,00</strong><span>💊 Saúde</span></li>
+              </ul>
+            </div>
+            <div class="coluna cris">
+              <h3><img src="/assessores/cris.svg" alt="" width="28" height="28"> Cris</h3>
+              <ul data-coluna="cris">
+                <li><strong>Dentista</strong><span>quinta, às 15:00</span></li>
+                <li><strong>Reunião com Ana</strong><span>amanhã, às 10:00</span></li>
+              </ul>
+            </div>
+            <div class="coluna nina">
+              <h3><img src="/assessores/nina.svg" alt="" width="28" height="28"> Nina</h3>
+              <ul data-coluna="nina">
+                <li><strong>Pagar luz</strong><span>sexta, às 15:00</span></li>
+                <li><strong>Comprar leite</strong><span>sem data</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="faixa" aria-label="Como seus dados são tratados">
+      <div class="faixa-trilho">
+        <ul class="faixa-lista">
+          <li><svg><use href="#i-escudo"/></svg><div><strong>Não pede dados bancários</strong><small>Sem acesso ao seu banco</small></div></li>
+          <li><svg><use href="#i-escudo"/></svg><div><strong>Não movimenta dinheiro</strong><small>Só anota o que você informa</small></div></li>
+          <li><svg><use href="#i-escudo"/></svg><div><strong>Cada conta só vê os próprios dados</strong><small>Seus números são só seus</small></div></li>
+          <li><svg><use href="#i-escudo"/></svg><div><strong>Senha guardada só como hash</strong><small>Ninguém lê a sua senha</small></div></li>
+          <li><svg><use href="#i-escudo"/></svg><div><strong>O Nuvexx não grava seus áudios</strong><small>Fica só o que foi anotado</small></div></li>
+          <li><svg><use href="#i-escudo"/></svg><div><strong>Baixe ou apague seus dados</strong><small>Quando quiser, pela aba Conta</small></div></li>
+          <li><svg><use href="#i-escudo"/></svg><div><strong>Sem publicidade</strong><small>Não vendemos seus dados</small></div></li>
+        </ul>
+        <ul class="faixa-lista" aria-hidden="true">
+          <li><svg><use href="#i-escudo"/></svg><div><strong>Não pede dados bancários</strong><small>Sem acesso ao seu banco</small></div></li>
+          <li><svg><use href="#i-escudo"/></svg><div><strong>Não movimenta dinheiro</strong><small>Só anota o que você informa</small></div></li>
+          <li><svg><use href="#i-escudo"/></svg><div><strong>Cada conta só vê os próprios dados</strong><small>Seus números são só seus</small></div></li>
+          <li><svg><use href="#i-escudo"/></svg><div><strong>Senha guardada só como hash</strong><small>Ninguém lê a sua senha</small></div></li>
+          <li><svg><use href="#i-escudo"/></svg><div><strong>O Nuvexx não grava seus áudios</strong><small>Fica só o que foi anotado</small></div></li>
+          <li><svg><use href="#i-escudo"/></svg><div><strong>Baixe ou apague seus dados</strong><small>Quando quiser, pela aba Conta</small></div></li>
+          <li><svg><use href="#i-escudo"/></svg><div><strong>Sem publicidade</strong><small>Não vendemos seus dados</small></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao equipe" id="assessores">
+      <div class="contem">
+        <div class="cabeca revelar">
+          <h2>Um assessor para cada parte da sua rotina.</h2>
+          <p class="subtitulo">Você não precisa escolher com quem falar. Caio, Cris e Nina estão na mesma conversa, e a mensagem vai sozinha para quem resolve.</p>
+        </div>
+        <div class="assessores">
+          <article class="assessor caio revelar">
+            <div class="assessor-retrato"><img src="/assessores/caio.svg" alt="Ilustração de Caio" width="160" height="160"></div>
+            <h3>Caio</h3>
+            <p class="assessor-cargo">Assessor Financeiro</p>
+            <ul class="marcas">
+              <li>Anota entradas e gastos</li>
+              <li>Calcula o saldo de cada conta</li>
+              <li>Cuida de parcelas e do que se repete</li>
+              <li>Guarda o histórico do seu veículo</li>
+            </ul>
+            <p class="assessor-exemplo">“mercado 50 no cartão”</p>
+          </article>
+          <article class="assessor cris revelar">
+            <div class="assessor-retrato"><img src="/assessores/cris.svg" alt="Ilustração de Cris" width="160" height="160"></div>
+            <h3>Cris</h3>
+            <p class="assessor-cargo">Assessora de Agenda</p>
+            <ul class="marcas">
+              <li>Marca e remarca compromissos</li>
+              <li>Avisa 1 hora antes</li>
+              <li>Manda o resumo do dia às 5h30</li>
+              <li>Envia ao Google Agenda, se você quiser</li>
+            </ul>
+            <p class="assessor-exemplo">“reunião com Ana amanhã às 10”</p>
+          </article>
+          <article class="assessor nina revelar">
+            <div class="assessor-retrato"><img src="/assessores/nina.svg" alt="Ilustração de Nina" width="160" height="160"></div>
+            <h3>Nina</h3>
+            <p class="assessor-cargo">Assessora de Tarefas</p>
+            <ul class="marcas">
+              <li>Anota pendências, com ou sem data</li>
+              <li>Avisa 2 horas antes do horário</li>
+              <li>Adia quando você pedir</li>
+              <li>Mostra o que ainda falta fazer</li>
+            </ul>
+            <p class="assessor-exemplo">“me lembra de renovar o seguro dia 20”</p>
+          </article>
+        </div>
+        <p class="nota revelar">Os assessores são personagens virtuais, e os retratos são ilustrações.</p>
+      </div>
+    </section>
+
+    <section class="secao dia" id="dia">
+      <div class="contem">
+        <div class="cabeca centro revelar">
+          <h2>Um dia comum, do café à hora de dormir.</h2>
+          <p class="subtitulo">Cinco momentos de uma segunda-feira e o que os assessores fazem em cada um deles.</p>
+        </div>
+        <ol class="dia-linha revelar" aria-label="Momentos do dia">
+          <li><button class="dia-botao" type="button">05:30</button></li>
+          <li><button class="dia-botao" type="button">08:15</button></li>
+          <li><button class="dia-botao" type="button">09:00</button></li>
+          <li><button class="dia-botao" type="button">13:00</button></li>
+          <li><button class="dia-botao" type="button">21:00</button></li>
+        </ol>
+        <div class="dia-palco revelar">
+          <article class="cena-item">
+            <div class="cena cris">
+              <span class="cena-hora">05:30</span>
+              <div class="bolha entra cris">
+                <div class="quem"><img src="/assessores/cris.svg" alt="" width="20" height="20"><strong>Cris</strong><small>Assessora de Agenda</small></div>
+                <p>Bom dia, Ana!</p>
+                <p>Seu dia vai das <strong>10:00</strong> às <strong>16:00</strong>, com <strong>2 compromissos</strong>. Você tem <strong>4h livres</strong> entre Reunião com Ana e Dentista. Também tem <strong>1 tarefa</strong> para hoje: Pagar luz.</p>
+              </div>
+            </div>
+            <h3>Você acorda sabendo como vai ser o dia.</h3>
+            <p>Às 5h30, a Cris conta os compromissos, o maior intervalo livre e as tarefas de hoje.</p>
+          </article>
+          <article class="cena-item">
+            <div class="cena caio">
+              <span class="cena-hora">08:15</span>
+              <div class="bolha sai"><div class="audio" role="img" aria-label="Mensagem de áudio de 3 segundos"><span class="audio-tocar"></span><svg class="onda"><use href="#i-onda"/></svg><small>0:03</small></div></div>
+              <div class="bolha entra caio">
+                <div class="quem"><img src="/assessores/caio.svg" alt="" width="20" height="20"><strong>Caio</strong><small>Assessor Financeiro</small></div>
+                <p>🎤 Ouvi: "Gastei 50 reais de gasolina."</p>
+                <p>✅ <strong>R$ 50,00</strong> em 🚗 Transporte</p>
+                <p>Gasolina, hoje.</p>
+                <p>Ouvi errado? Mande <strong>desfazer</strong>.</p>
+              </div>
+            </div>
+            <h3>O gasto fica anotado antes de você chegar.</h3>
+            <p>Saindo do posto, um áudio no WhatsApp resolve. O Caio mostra o que ouviu e já coloca na categoria certa.</p>
+          </article>
+          <article class="cena-item">
+            <div class="cena cris">
+              <span class="cena-hora">09:00</span>
+              <div class="bolha entra cris">
+                <div class="quem"><img src="/assessores/cris.svg" alt="" width="20" height="20"><strong>Cris</strong><small>Assessora de Agenda</small></div>
+                <p>⏰ Lembrete: <strong>Reunião com Ana</strong>, hoje, às 10:00.</p>
+              </div>
+            </div>
+            <h3>Uma hora antes, o aviso chega.</h3>
+            <p>A Cris lembra de cada compromisso pelo WhatsApp, se estiver conectado, ou por e-mail.</p>
+          </article>
+          <article class="cena-item">
+            <div class="cena nina">
+              <span class="cena-hora">13:00</span>
+              <div class="bolha sai"><p>preciso comprar leite</p></div>
+              <div class="bolha entra nina">
+                <div class="quem"><img src="/assessores/nina.svg" alt="" width="20" height="20"><strong>Nina</strong><small>Assessora de Tarefas</small></div>
+                <p>✅ <strong>Comprar leite</strong>: sem data.</p>
+              </div>
+            </div>
+            <h3>Lembrou de algo no almoço? Escreva.</h3>
+            <p>A Nina guarda a pendência, com ou sem dia, para ela não ficar só na sua cabeça.</p>
+          </article>
+          <article class="cena-item">
+            <div class="cena caio">
+              <span class="cena-hora">21:00</span>
+              <div class="bolha sai"><p>quanto gastei hoje</p></div>
+              <div class="bolha entra caio">
+                <div class="quem"><img src="/assessores/caio.svg" alt="" width="20" height="20"><strong>Caio</strong><small>Assessor Financeiro</small></div>
+                <p><strong>Hoje</strong></p>
+                <p>Total: <strong>R$ 138,00</strong></p>
+                <p>09/11 Almoço: R$ 38,00<br>09/11 Mercado: R$ 50,00<br>09/11 Gasolina: R$ 50,00</p>
+              </div>
+            </div>
+            <h3>Antes de dormir, você sabe quanto gastou.</h3>
+            <p>É só perguntar. O Caio responde com o total e com cada lançamento do dia.</p>
+          </article>
+        </div>
+        <p class="centro-texto revelar"><a class="chamada" href="#fila">Entrar na fila de espera <span aria-hidden="true">→</span></a></p>
+      </div>
+    </section>
+
+    <section class="secao claro experimente" id="experimente">
+      <div class="contem">
+        <div class="cabeca centro revelar">
+          <h2>Nada para aprender: é só escrever ou falar.</h2>
+          <p class="subtitulo">Toque em uma mensagem e veja a resposta dos assessores, igual à que eles dão no app. As que têm 🎤 são áudios, que funcionam pelo WhatsApp.</p>
+        </div>
+        <div class="celular revelar">
+          <div class="tela">
+            <div class="barra-celular"><span>09:00</span><span class="ilha"></span><span class="sinais"></span></div>
+            <div class="app-topo"><img src="/simbolo.png" alt="" width="36" height="36"><div><strong>Nuvexx</strong><small>Caio, Cris e Nina</small></div></div>
+            <div class="conversa rolavel" id="demo-conversa" role="log" aria-live="polite" tabindex="0" aria-label="Conversa de demonstração">
+              <div class="bolha entra">
+                <p>Oi! Toque em uma mensagem aqui embaixo, e o assessor certo responde.</p>
+              </div>
+            </div>
+            <div class="pedidos" id="demo-pedidos" aria-label="Mensagens para testar"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao financas" id="financas">
+      <div class="contem">
+        <div class="cabeca centro revelar">
+          <h2>Veja para onde o dinheiro foi, e o que ainda vai sair.</h2>
+          <p class="subtitulo">O Caio guarda o que você anota e transforma em saldo, categorias e previsão do mês.</p>
+        </div>
+        <div class="mosaico">
+          <article class="bloco revelar">
+            <div class="bloco-visual">
+              <ul class="contas">
+                <li><span>Conta corrente</span><strong>R$ 3.482,10</strong></li>
+                <li><span>Poupança</span><strong>R$ 5.000,00</strong></li>
+                <li><span>Cartão de crédito <small>gasto no mês</small></span><strong>R$ 1.246,90</strong></li>
+              </ul>
+            </div>
+            <h3>Cada conta e cartão no seu lugar.</h3>
+            <p>Cadastre o que você usa. O saldo é o inicial mais as entradas menos os gastos. Tudo vem do que você anota: não há ligação com bancos.</p>
+          </article>
+          <article class="bloco revelar">
+            <div class="bloco-visual">
+              <ul class="etiquetas">
+                <li>🛒 Mercado</li><li>🍽️ Alimentação</li><li>🚗 Transporte</li><li>🏠 Moradia</li>
+                <li>📱 Assinaturas</li><li>💊 Saúde</li><li>🎓 Educação</li><li>🎉 Lazer</li>
+                <li>🛍️ Compras</li><li>🐾 Pets</li><li>🔧 Manutenção de Veículo</li>
+              </ul>
+            </div>
+            <h3>Cada gasto cai na categoria certa.</h3>
+            <p>Se errar, escreva <code>categoria lazer</code>. O Caio corrige e, da próxima vez, já coloca lá.</p>
+          </article>
+          <article class="bloco revelar">
+            <div class="bloco-visual">
+              <div class="bolha sai"><p>quanto ainda vai sair</p></div>
+              <div class="bolha entra caio">
+                <div class="quem"><img src="/assessores/caio.svg" alt="" width="20" height="20"><strong>Caio</strong><small>Assessor Financeiro</small></div>
+                <p><strong>Ainda em novembro</strong></p>
+                <p>Vai entrar: <strong>R$ 0,00</strong><br>Vai sair: <strong>R$ 2.100,00</strong></p>
+                <p>10/11 Aluguel: −R$ 1.800,00<br>15/11 Luz: −R$ 300,00</p>
+              </div>
+            </div>
+            <h3>Pergunte do seu jeito.</h3>
+            <p>Resumo do mês, total de uma categoria, o que ainda vai entrar e sair. A resposta vem com os números que você anotou.</p>
+          </article>
+          <article class="bloco revelar">
+            <div class="bloco-visual">
+              <div class="bolha sai"><p>tv 1200 em 10x</p></div>
+              <div class="bolha entra caio">
+                <div class="quem"><img src="/assessores/caio.svg" alt="" width="20" height="20"><strong>Caio</strong><small>Assessor Financeiro</small></div>
+                <p>✅ <strong>10x de R$ 120,00</strong> em 🛍️ Compras</p>
+                <p>Tv, total de R$ 1.200,00. Primeira parcela: hoje.</p>
+              </div>
+              <div class="bolha sai"><p>aluguel 1800 todo dia 10</p></div>
+              <div class="bolha entra caio">
+                <div class="quem"><img src="/assessores/caio.svg" alt="" width="20" height="20"><strong>Caio</strong><small>Assessor Financeiro</small></div>
+                <p>✅ <strong>R$ 1.800,00</strong> de saída todo mês em 🏠 Moradia</p>
+                <p>Aluguel. Próxima: 10/11.</p>
+              </div>
+            </div>
+            <h3>O parcelado e o que se repete também.</h3>
+            <p>Compra em 10x, aluguel todo mês, academia toda semana. Tudo entra na previsão do painel.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao painel" id="painel">
+      <div class="contem">
+        <div class="cabeca centro revelar">
+          <h2>Seus números no painel, na ordem que você quiser.</h2>
+          <p class="subtitulo">Entradas, saídas, saldo, o que ainda vai acontecer, fluxo de 6 meses e gastos por categoria. Você arrasta os blocos e organiza cada painel do seu jeito.</p>
+        </div>
+        <div class="tablet revelar">
+          <div class="tablet-topo">
+            <img src="/logo-fundo-escuro.png" alt="Nuvexx" width="1420" height="287">
+            <span class="tablet-quem"><img src="/assessores/caio.svg" alt="" width="28" height="28"> Finanças, por Caio</span>
+          </div>
+          <div class="abas" role="group" aria-label="Painéis de exemplo">
+            <button class="aba" type="button" data-aba="geral">Visão geral</button>
+            <button class="aba" type="button" data-aba="fluxo">Fluxo</button>
+            <button class="aba" type="button" data-aba="gastos">Gastos</button>
+          </div>
+          <div class="abas-palco">
+            <div class="aba-conteudo" data-conteudo="geral">
+              <div class="kpis">
+                <div class="kpi"><small>Entradas</small><strong class="valor-entrada">R$ 6.200</strong></div>
+                <div class="kpi"><small>Saídas</small><strong class="valor-saida">R$ 4.130</strong></div>
+                <div class="kpi"><small>Saldo do mês</small><strong>R$ 2.070</strong></div>
+              </div>
+              <div class="duas">
+                <div class="cartao-painel">
+                  <h4>Ainda vai acontecer</h4>
+                  <ul class="linhas">
+                    <li><span>Vai entrar</span><strong>R$ 0</strong></li>
+                    <li><span>Vai sair</span><strong>R$ 650</strong></li>
+                    <li><span>Saldo previsto</span><strong>R$ 1.420</strong></li>
+                  </ul>
+                </div>
+                <div class="cartao-painel">
+                  <h4>Próximos compromissos</h4>
+                  <ul class="linhas">
+                    <li><span>Reunião com Ana</span><strong>amanhã, 10:00</strong></li>
+                    <li><span>Dentista</span><strong>quinta, 15:00</strong></li>
+                    <li><span>Pagar luz</span><strong>sexta, 15:00</strong></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="aba-conteudo" data-conteudo="fluxo">
+              <div class="cartao-painel">
+                <h4>Fluxo mensal, 6 meses</h4>
+                <svg class="grafico" viewBox="0 0 480 200" role="img" aria-label="Gráfico de barras com entradas e saídas de junho a novembro. Em novembro, a parte clara mostra o que ainda vai sair.">
+                  <line class="eixo" x1="0" x2="480" y1="170" y2="170"/>
+                  <g class="barra-entrada">
+                    <rect x="12" y="46" width="26" height="124" rx="4"/><rect x="92" y="46" width="26" height="124" rx="4"/><rect x="172" y="39" width="26" height="131" rx="4"/><rect x="252" y="44" width="26" height="126" rx="4"/><rect x="332" y="37" width="26" height="133" rx="4"/><rect x="412" y="37" width="26" height="133" rx="4"/>
+                  </g>
+                  <g class="barra-saida">
+                    <rect x="42" y="78" width="26" height="92" rx="4"/><rect x="122" y="69" width="26" height="101" rx="4"/><rect x="202" y="83" width="26" height="87" rx="4"/><rect x="282" y="76" width="26" height="94" rx="4"/><rect x="362" y="65" width="26" height="105" rx="4"/><rect x="442" y="81" width="26" height="89" rx="4"/>
+                  </g>
+                  <rect class="barra-prevista" x="442" y="67" width="26" height="14" rx="4"/>
+                  <g class="rotulos">
+                    <text x="40" y="192">jun</text><text x="120" y="192">jul</text><text x="200" y="192">ago</text><text x="280" y="192">set</text><text x="360" y="192">out</text><text x="440" y="192">nov</text>
+                  </g>
+                </svg>
+                <ul class="legenda">
+                  <li class="l-entrada">Entradas</li><li class="l-saida">Saídas</li><li class="l-prevista">Ainda vai sair</li>
+                </ul>
+              </div>
+            </div>
+            <div class="aba-conteudo" data-conteudo="gastos">
+              <div class="cartao-painel">
+                <h4>Gastos por categoria</h4>
+                <ul class="categorias">
+                  <li><span>🏠 Moradia</span><strong>R$ 2.100</strong><i class="medida m100"></i></li>
+                  <li><span>🛒 Mercado</span><strong>R$ 860</strong><i class="medida m41"></i></li>
+                  <li><span>🚗 Transporte</span><strong>R$ 420</strong><i class="medida m20"></i></li>
+                  <li><span>🍽️ Alimentação</span><strong>R$ 390</strong><i class="medida m19"></i></li>
+                  <li><span>🛍️ Compras</span><strong>R$ 360</strong><i class="medida m17"></i></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="nota centro-texto revelar">Quer mostrar para alguém? Gere um link só de leitura, que vale por 30 dias e traz apenas os blocos daquele painel.</p>
+      </div>
+    </section>
+
+    <section class="secao claro agenda" id="agenda">
+      <div class="contem">
+        <div class="cabeca centro revelar">
+          <h2>Sua agenda, sem abrir agenda.</h2>
+          <p class="subtitulo">Diga o compromisso e o dia. A Cris marca, avisa antes e ainda conta como será o seu dia.</p>
+        </div>
+        <div class="mosaico">
+          <article class="bloco revelar">
+            <div class="bloco-visual">
+              <div class="bolha sai"><div class="audio" role="img" aria-label="Mensagem de áudio de 4 segundos"><span class="audio-tocar"></span><svg class="onda"><use href="#i-onda"/></svg><small>0:04</small></div></div>
+              <div class="bolha entra cris">
+                <div class="quem"><img src="/assessores/cris.svg" alt="" width="20" height="20"><strong>Cris</strong><small>Assessora de Agenda</small></div>
+                <p>🎤 Ouvi: "Marca dentista quinta às três da tarde."</p>
+                <p>✅ <strong>Dentista</strong>: quinta, 12/11, às 15:00.</p>
+                <p>Te aviso 1 hora antes.</p>
+              </div>
+              <div class="bolha sai"><p>remarcar dentista para sexta às 9</p></div>
+              <div class="bolha entra cris">
+                <div class="quem"><img src="/assessores/cris.svg" alt="" width="20" height="20"><strong>Cris</strong><small>Assessora de Agenda</small></div>
+                <p>🔁 <strong>Dentista</strong> agora é sexta, 13/11, às 09:00.</p>
+              </div>
+            </div>
+            <h3>Escreveu ou gravou, marcou.</h3>
+            <p>Sem o dia, ela pergunta para quando. Mudou de ideia? É só pedir de novo.</p>
+          </article>
+          <article class="bloco revelar">
+            <div class="bloco-visual">
+              <ol class="semana" aria-label="Semana de exemplo">
+                <li><small>seg</small>9</li><li><small>ter</small>10</li><li><small>qua</small>11</li><li class="hoje"><small>qui</small>12</li><li><small>sex</small>13</li><li><small>sáb</small>14</li><li><small>dom</small>15</li>
+              </ol>
+              <div class="evento"><strong>Dentista</strong><span>quinta, 15:00 às 16:00</span></div>
+            </div>
+            <h3>Se quiser, vai também para o Google Agenda.</h3>
+            <p>Os compromissos vão do Nuvexx para a sua agenda, inclusive os marcados antes de conectar. É opcional.</p>
+          </article>
+          <article class="bloco revelar">
+            <div class="bloco-visual">
+              <div class="bolha entra cris">
+                <div class="quem"><img src="/assessores/cris.svg" alt="" width="20" height="20"><strong>Cris</strong><small>Assessora de Agenda</small></div>
+                <p>Bom dia, Ana!</p>
+                <p>Seu dia vai das <strong>10:00</strong> às <strong>16:00</strong>, com <strong>2 compromissos</strong>. Você tem <strong>4h livres</strong> entre Reunião com Ana e Dentista.</p>
+              </div>
+            </div>
+            <h3>Às 5h30, o resumo do dia.</h3>
+            <p>Compromissos, intervalo livre e tarefas de hoje. Dia sem nada marcado não gera envio, e você pode desligar.</p>
+          </article>
+          <article class="bloco revelar">
+            <div class="bloco-visual">
+              <svg class="arco" viewBox="0 -24 400 214" role="img" aria-label="Linha do dia em arco: reunião às 10:00, dentista às 15:00 e 4 horas livres entre os dois.">
+                <path class="arco-base" d="M30 170A170 170 0 0 1 370 170"/>
+                <path class="arco-ocupado" d="M62.500 70A170 170 0 0 1 100 32.500"/>
+                <path class="arco-ocupado" d="M300 32.500A170 170 0 0 1 337.500 70"/>
+                <circle class="arco-agora" cx="173" cy="2" r="7"/>
+                <text class="arco-hora" x="52" y="50" text-anchor="end">10:00</text>
+                <text class="arco-hora" x="348" y="50">15:00</text>
+                <text class="arco-livre" x="200" y="110" text-anchor="middle">4h livres</text>
+                <text class="arco-apoio" x="200" y="136" text-anchor="middle">entre Reunião com Ana e Dentista</text>
+              </svg>
+            </div>
+            <h3>O dia inteiro em uma linha.</h3>
+            <p>A tela da agenda mostra o dia em arco, com a hora atual e o maior intervalo livre no centro.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao tarefas" id="tarefas">
+      <div class="contem">
+        <div class="cabeca centro revelar">
+          <h2>Anotou com a Nina, saiu da cabeça.</h2>
+          <p class="subtitulo">Pendência com dia, com horário ou sem nada disso. Ela guarda, avisa e risca quando você terminar.</p>
+        </div>
+        <ol class="passos">
+          <li class="passo revelar">
+            <span class="passo-numero">1</span>
+            <h3>Anote</h3>
+            <p>Comece com “tarefa” para marcar horário, ou escreva “preciso” e o que falta fazer.</p>
+            <div class="bolha sai"><p>tarefa pagar luz sexta às 15h</p></div>
+            <div class="bolha entra nina">
+              <div class="quem"><img src="/assessores/nina.svg" alt="" width="20" height="20"><strong>Nina</strong></div>
+              <p>✅ <strong>Pagar luz</strong>: sexta, 13/11, às 15:00.</p>
+              <p>Te aviso 2 horas antes.</p>
+            </div>
+          </li>
+          <li class="passo revelar">
+            <span class="passo-numero">2</span>
+            <h3>Receba o aviso</h3>
+            <p>Com horário, ela avisa 2 horas antes. Só com o dia, o aviso sai às 8h.</p>
+            <div class="bolha entra nina">
+              <div class="quem"><img src="/assessores/nina.svg" alt="" width="20" height="20"><strong>Nina</strong></div>
+              <p>⏰ Lembrete: <strong>Pagar luz</strong>, hoje, às 15:00.</p>
+            </div>
+          </li>
+          <li class="passo revelar">
+            <span class="passo-numero">3</span>
+            <h3>Conclua</h3>
+            <p>Terminou? Avise. Se precisar de mais tempo, é só pedir para adiar.</p>
+            <div class="bolha sai"><p>concluí comprar leite</p></div>
+            <div class="bolha entra nina">
+              <div class="quem"><img src="/assessores/nina.svg" alt="" width="20" height="20"><strong>Nina</strong></div>
+              <p>🎉 <strong>Comprar leite</strong> concluída. Falta 1 tarefa.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="secao veiculo" id="veiculo">
+      <div class="contem veiculo-grade">
+        <div class="revelar">
+          <h2>O histórico do seu carro, pronto para mostrar a quem for comprar.</h2>
+          <p class="subtitulo">Cada manutenção fica guardada com data, serviço, oficina e quilometragem. Por mensagem, o Caio pergunta só o que faltar.</p>
+          <div class="bolha sai"><p>troca de pneu 900 no civic na borracharia ontem</p></div>
+          <div class="bolha entra caio">
+            <div class="quem"><img src="/assessores/caio.svg" alt="" width="20" height="20"><strong>Caio</strong><small>Assessor Financeiro</small></div>
+            <p>✅ <strong>Manutenção anotada</strong> no histórico de <strong>Honda Civic</strong></p>
+            <p>🔧 Troca de pneu<br>📍 Borracharia<br>📅 08/11/2026<br>💵 R$ 900,00</p>
+          </div>
+        </div>
+        <div class="relatorio revelar">
+          <input type="checkbox" id="mostrar-valores">
+          <label for="mostrar-valores">Mostrar os valores</label>
+          <h3>Honda Civic</h3>
+          <p class="relatorio-sub">Histórico de manutenção</p>
+          <ul class="relatorio-lista">
+            <li><strong>Troca de pneu</strong><span>08/11/2026 · Borracharia · 84.200 km</span><b>R$ 900,00</b></li>
+            <li><strong>Troca de óleo</strong><span>12/08/2026 · Oficina do Zé · 81.050 km</span><b>R$ 250,00</b></li>
+            <li><strong>Pastilhas de freio</strong><span>20/05/2026 · Oficina do Zé · 78.300 km</span><b>R$ 340,00</b></li>
+          </ul>
+          <p class="relatorio-nota">Informações anotadas pelo dono. Este relatório não é vistoria nem laudo.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao claro lugares" id="onde">
+      <div class="contem">
+        <div class="cabeca centro revelar">
+          <h2>Onde você estiver, do jeito que preferir.</h2>
+          <p class="subtitulo">O Nuvexx funciona em qualquer navegador e guarda tudo na sua conta.</p>
+        </div>
+        <div class="grade-cartoes">
+          <article class="cartao revelar"><svg><use href="#i-tela"/></svg><h3>Computador ou celular</h3><p>Abra no navegador, sem instalar nada. Se quiser, deixe na tela inicial do celular, como um app.</p></article>
+          <article class="cartao revelar"><svg><use href="#i-conversa"/></svg><h3>Site ou WhatsApp</h3><p>A aba Conversa fica dentro do site. Se preferir, conecte seu WhatsApp para escrever ou mandar áudio por lá.</p></article>
+          <article class="cartao revelar"><svg><use href="#i-blocos"/></svg><h3>Botões, se preferir</h3><p>Tudo o que dá para escrever também dá para fazer pelos botões e formulários do site.</p></article>
+          <article class="cartao revelar"><svg><use href="#i-link"/></svg><h3>Compartilhe um painel</h3><p>Um link só de leitura, que vale por 30 dias. Criar outro ou parar de compartilhar cancela o anterior.</p></article>
+          <article class="cartao revelar"><svg><use href="#i-carta"/></svg><h3>Avisos por e-mail</h3><p>Sem WhatsApp conectado, os lembretes chegam por e-mail. E você pode desligar quando quiser.</p></article>
+          <article class="cartao revelar"><svg><use href="#i-dados"/></svg><h3>Seus dados são seus</h3><p>Baixe tudo o que você anotou ou apague a conta, sempre que quiser, pela aba Conta.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao fila" id="fila">
+      <div class="contem fila-grade">
+        <div class="revelar">
+          <h2>Entre na fila e comece quando abrir.</h2>
+          <p class="subtitulo">Não tem custo e não cria conta. Quando você puder começar a usar, avisamos pelo WhatsApp.</p>
+        </div>
+        <div class="fila-cartao revelar">
+          <p class="selo selo-claro"><span class="selo-ponto"></span><strong>Lançamento</strong> em breve</p>
+          <h3>Fila de espera</h3>
+          <ul class="marcas">
+            <li>Os três assessores na mesma conversa</li>
+            <li>Painel com entradas, saídas e previsão do mês</li>
+            <li>Lembretes e resumo do dia às 5h30</li>
+            <li>Histórico de manutenção do veículo</li>
+            <li>Áudio pelo WhatsApp, um pedido de cada vez</li>
+            <li>WhatsApp e Google Agenda, se você quiser conectar</li>
+            <li>7 dias de teste grátis para começar</li>
+          </ul>
+
+          <form id="inscricao" novalidate>
+            <label for="nome">Nome</label>
+            <input id="nome" name="nome" type="text" autocomplete="name" maxlength="80" required>
+
+            <label for="whatsapp">WhatsApp com DDD</label>
+            <input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" maxlength="24" required>
+
+            <div class="armadilha" aria-hidden="true">
+              <label for="site">Site</label>
+              <input id="site" name="site" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <button class="botao" type="submit">Entrar na fila</button>
+            <p id="erro" class="erro" role="alert" hidden></p>
+            <p class="aviso">Ao entrar na fila, você aceita receber mensagens do Nuvexx no WhatsApp sobre o lançamento. Para parar, é só avisar. <a href="/privacidade">Política de privacidade</a></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao perguntas" id="perguntas">
+      <div class="contem estreito">
+        <div class="cabeca centro revelar">
+          <h2>Perguntas frequentes.</h2>
+        </div>
+        <div class="lista-perguntas revelar">
+          <details open>
+            <summary>Quando o Nuvexx abre?</summary>
+            <p>O lançamento oficial é em breve. Quem está na fila recebe o aviso pelo WhatsApp.</p>
+          </details>
+          <details>
+            <summary>Entrar na fila tem algum custo?</summary>
+            <p>Não. Entrar na fila não cria conta e não obriga você a assinar nada depois.</p>
+          </details>
+          <details>
+            <summary>Quanto vai custar?</summary>
+            <p>O preço será divulgado no lançamento. Toda conta nova começa com 7 dias de teste grátis.</p>
+          </details>
+          <details>
+            <summary>Preciso instalar um aplicativo?</summary>
+            <p>Não. O Nuvexx funciona no navegador, no computador ou no celular. Se quiser, você pode deixá-lo na tela inicial do celular.</p>
+          </details>
+          <details>
+            <summary>Preciso ter WhatsApp?</summary>
+            <p>Para entrar na fila, sim: é por lá que avisamos do lançamento. Para usar o Nuvexx, não: tudo funciona pelo site, na aba Conversa ou pelos botões e formulários, e conectar o WhatsApp é opcional.</p>
+          </details>
+          <details>
+            <summary>Dá para mandar áudio?</summary>
+            <p>Sim, pelo WhatsApp conectado. Grave um pedido de cada vez, e o assessor responde mostrando o que ouviu. Se ele ouvir errado, é só mandar “desfazer”. Na conversa do site, por enquanto, só dá para escrever, e foto e vídeo ainda não são entendidos.</p>
+          </details>
+          <details>
+            <summary>Meus áudios ficam guardados?</summary>
+            <p>O Nuvexx não grava o áudio nem o texto transcrito: fica só o que foi anotado. Para transformar a voz em texto, o áudio passa por um serviço de transcrição, como explica a política de privacidade do app.</p>
+          </details>
+          <details>
+            <summary>O Nuvexx se conecta ao meu banco?</summary>
+            <p>Não. Os saldos vêm só do que você anota. O Nuvexx não pede dados bancários, não acessa suas contas e não movimenta dinheiro.</p>
+          </details>
+          <details>
+            <summary>Funciona com o Google Agenda?</summary>
+            <p>Sim, se você conectar. Os compromissos vão do Nuvexx para o Google Agenda. O que você criar direto no Google não volta para o Nuvexx.</p>
+          </details>
+          <details>
+            <summary>Os assessores são pessoas ou inteligência artificial?</summary>
+            <p>Não são pessoas: são personagens virtuais. Eles leem o texto com regras e palavras-chave, sem inteligência artificial. A exceção é o áudio, que um serviço de reconhecimento de voz com inteligência artificial transforma em texto. Uma frase muito fora do padrão pode não ser entendida e, nesse caso, o assessor pede para reformular. Por isso, vale conferir os registros.</p>
+          </details>
+          <details>
+            <summary>Meus dados ficam seguros?</summary>
+            <p>Cada conta só enxerga os próprios dados, e a senha fica guardada só como hash. Não usamos seus dados para publicidade, e você pode baixar tudo ou apagar a conta quando quiser.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="contem rodape-grade">
+      <div>
+        <img src="/logo-fundo-escuro.png" alt="Nuvexx" width="1420" height="287">
+        <p>Três assessores virtuais para o seu dinheiro, a sua agenda e as suas tarefas, em uma conversa só.</p>
+      </div>
+      <nav aria-label="Rodapé">
+        <a href="#assessores">Assessores</a>
+        <a href="#experimente">Experimente</a>
+        <a href="#perguntas">Perguntas</a>
+        <a href="/privacidade">Política de privacidade</a>
+      </nav>
+    </div>
+    <div class="contem rodape-fim">
+      <p>Conversas e painéis usam dados de exemplo. As respostas seguem as que os assessores dão hoje no app.</p>
+      <p>© 2026 Nuvexx</p>
+    </div>
+  </footer>
+</body>
+</html>

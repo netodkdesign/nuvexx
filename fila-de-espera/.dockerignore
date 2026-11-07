@@ -1,0 +1,9 @@
+.env
+.env.*
+.gitignore
+*.csv
+*.zip
+dados
+fly.toml
+README.md
+test

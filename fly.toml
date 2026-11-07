@@ -1,0 +1,40 @@
+# Configuração da Fly.io. O passo a passo está no README.md.
+# Troque o nome: ele precisa ser único na Fly.io e aparece no endereço provisório (nome.fly.dev).
+app = "nuvexx"
+primary_region = "gru"
+
+[env]
+  AMBIENTE = "producao"
+  PORT = "3100"
+  APP_TIMEZONE = "America/Sao_Paulo"
+  CABECALHO_IP_CLIENTE = "fly-client-ip"
+  # Endereço do app. A raiz nuvexx.com.br e o www continuam com a fila de espera.
+  APP_URL = "https://app.nuvexx.com.br"
+  EMAIL_REMETENTE = "Nuvexx <nao-responda@avisos.nuvexx.com.br>"
+  # Comece fechado: só os e-mails em EMAILS_LIBERADOS criam conta. Abra quando terminar os testes.
+  CADASTRO_ABERTO = "false"
+  # Vale para quem criar a conta depois de publicado. Volte para o prazo comercial antes de abrir o cadastro.
+  TESTE_GRATIS_DIAS = "30"
+  # Aparecem nos termos de uso.
+  EMPRESA_NOME = "Neto DK Publicidade"
+  EMPRESA_CNPJ = "37.321.878/0001-39"
+  EMPRESA_EMAIL = "contato@nuvexx.com.br"
+
+[http_service]
+  internal_port = 3100
+  force_https = true
+  # Os lembretes dependem do app ligado o tempo todo.
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    grace_period = "15s"
+    interval = "30s"
+    timeout = "5s"
+    method = "GET"
+    path = "/health"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

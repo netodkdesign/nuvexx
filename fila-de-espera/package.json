@@ -1,0 +1,15 @@
+{
+  "name": "nuvexx-fila-de-espera",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Página temporária de fila de espera do Nuvexx. Será apagada quando o app for ao ar.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test --test-timeout=30000 test/",
+    "pacote": "tar -a -cf para-enviar.zip -C public ."
+  }
+}

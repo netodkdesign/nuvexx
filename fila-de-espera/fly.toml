@@ -1,0 +1,35 @@
+# Configuração da Fly.io só da fila de espera. O passo a passo está no README.md desta pasta.
+# Rode os comandos dentro desta pasta: o app tem o próprio fly.toml, um nível acima.
+# O nome precisa ser único na Fly.io e aparece no endereço provisório (nome.fly.dev).
+app = "nuvexx-fila"
+primary_region = "gru"
+
+[env]
+  AMBIENTE = "producao"
+  PORT = "3200"
+  CABECALHO_IP_CLIENTE = "fly-client-ip"
+  PASTA_DADOS = "/dados"
+
+# O disco permanente onde fica o inscritos.csv.
+[mounts]
+  source = "fila_dados"
+  destination = "/dados"
+
+[http_service]
+  internal_port = 3200
+  force_https = true
+  # Sem visitas, a máquina desliga para não gastar e liga sozinha na visita seguinte.
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    grace_period = "15s"
+    interval = "30s"
+    timeout = "5s"
+    method = "GET"
+    path = "/health"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

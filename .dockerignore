@@ -1,0 +1,11 @@
+.claude
+.env
+.env.*
+.git
+data
+fila-de-espera
+instagram
+node_modules
+scripts
+test
+README.md

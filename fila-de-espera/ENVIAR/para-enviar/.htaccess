@@ -1,0 +1,44 @@
+# Regras da página na hospedagem compartilhada. O passo a passo está no README.md da pasta.
+Options -Indexes
+DirectoryIndex index.html
+
+AddType font/woff2 .woff2
+AddType image/svg+xml .svg
+AddType text/javascript .js
+
+RewriteEngine On
+
+# Só depois de o certificado estar ativo: sem ele, este bloco deixa a página fora do ar.
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^ https://nuvexx.com.br%{REQUEST_URI} [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteRule ^ https://nuvexx.com.br%{REQUEST_URI} [R=301,L]
+
+# Os mesmos endereços que a página usa.
+RewriteRule ^inscrever$ inscrever.php [L]
+RewriteRule ^privacidade$ privacidade.php [L]
+RewriteRule ^obrigado$ obrigado.html [L]
+
+# Este arquivo é só o modelo da política, com os dados da empresa ainda em branco.
+RewriteRule ^privacidade\.html$ - [R=404,L]
+
+<IfModule mod_headers.c>
+  Header always set Content-Security-Policy "default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "no-referrer"
+  Header always set X-Frame-Options "DENY"
+
+  # Texto sempre conferido; imagem e fonte guardadas por uma semana, para abrir rápido no celular.
+  <FilesMatch "\.(html|css|js)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "\.(png|svg|ico|woff2)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/json image/svg+xml
+</IfModule>

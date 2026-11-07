@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Nuvexx: fila aberta</title>
+<style>
+  /* Vídeo vertical de 1080 x 1920. O texto fica entre y=260 e y=1440, fora das áreas
+     que o Instagram cobre com o nome da conta, a legenda e os botões. */
+  @font-face { font-family: Poppins; font-weight: 300; src: url("/assets/fontes/poppins-300.woff2") format("woff2"); }
+  @font-face { font-family: Poppins; font-weight: 400; src: url("/assets/fontes/poppins-400.woff2") format("woff2"); }
+  @font-face { font-family: Poppins; font-weight: 500; src: url("/assets/fontes/poppins-500.woff2") format("woff2"); }
+  @font-face { font-family: Poppins; font-weight: 600; src: url("/assets/fontes/poppins-600.woff2") format("woff2"); }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #000; }
+  p, h2 { margin: 0; font-weight: inherit; }
+  strong { font-weight: 600; }
+
+  #palco {
+    position: relative;
+    width: 1080px;
+    height: 1920px;
+    overflow: hidden;
+    isolation: isolate;
+    background: #0B1220;
+    color: #F1F5F9;
+    font: 400 40px/1.4 Poppins, "Segoe UI", sans-serif;
+  }
+  .luz { position: absolute; z-index: -3; width: 1500px; height: 1500px; border-radius: 50%; }
+  #luz-a { left: -420px; top: 60px; background: radial-gradient(circle, #7657FF66, #7657FF1c 44%, transparent 68%); }
+  #luz-b { left: 60px; top: 760px; background: radial-gradient(circle, #2563EB5c, #2563EB18 44%, transparent 68%); }
+  .xis {
+    position: absolute;
+    background: linear-gradient(120deg, #2563EB, #7657FF);
+    -webkit-mask: url("/assets/logo-fundo-escuro.png") right center / auto 100% no-repeat;
+    mask: url("/assets/logo-fundo-escuro.png") right center / auto 100% no-repeat;
+  }
+  #xis-fundo { z-index: -2; left: -40px; top: 560px; width: 1900px; height: 1206px; opacity: 0.07; }
+  #pontos { position: absolute; z-index: -1; inset: 0; background: radial-gradient(rgba(165, 180, 252, 0.12) 2px, transparent 3px) 0 0 / 45px 45px; }
+
+  #ondas, #avatar { position: absolute; left: 0; top: 0; }
+  #avatar { width: 1080px; height: 1080px; transform-origin: 540px 540px; }
+
+  /* Títulos: cada linha sobe por trás de uma máscara */
+  .titulo { position: absolute; left: 40px; right: 40px; top: 850px; text-align: center; font-size: 124px; font-weight: 300; letter-spacing: -0.024em; line-height: 1.16; }
+  .linha { display: block; overflow: hidden; padding-bottom: 0.04em; }
+  .linha > span { display: block; will-change: transform; }
+  .realce { color: #A5B4FC; font-weight: 400; }
+
+  #selo {
+    position: absolute;
+    left: 50%;
+    top: 1316px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 36px;
+    border: 2px solid rgba(118, 87, 255, 0.55);
+    border-radius: 999px;
+    background: rgba(118, 87, 255, 0.16);
+    font-size: 36px;
+    white-space: nowrap;
+  }
+  #selo-ponto { width: 18px; height: 18px; border-radius: 50%; background: #A5B4FC; }
+
+  /* Os assessores */
+  .retrato { position: absolute; left: 0; top: 0; width: 270px; height: 270px; border-radius: 50%; }
+  .caio { --cor: #2563EB; }
+  .cris { --cor: #7657FF; }
+  .nina { --cor: #A5B4FC; }
+  .retrato { box-shadow: 0 0 0 7px var(--cor), 0 0 80px var(--cor); }
+  .ficha {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: grid;
+    gap: 0;
+    width: 296px;
+    padding: 16px 22px;
+    border: 2px solid rgba(165, 180, 252, 0.14);
+    border-left: 8px solid var(--cor);
+    border-radius: 24px;
+    background: #101828;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    font-size: 28px;
+    line-height: 1.3;
+  }
+  .ficha span { color: #A3AEBD; white-space: nowrap; }
+  .ficha strong { font-size: 33px; white-space: nowrap; }
+  #apoio-b { position: absolute; left: 90px; right: 90px; top: 1318px; color: #A3AEBD; font-size: 42px; line-height: 1.34; text-align: center; text-wrap: balance; }
+
+  /* A passagem para o degradê: discos em degraus, como os círculos do perfil */
+  .passagem { position: absolute; left: -660px; top: -240px; width: 2400px; height: 2400px; border-radius: 50%; }
+
+  #fim { position: absolute; inset: 0; background: linear-gradient(120deg, #2563EB, #7657FF); color: #FFFFFF; }
+  #xis-fim { left: -60px; top: 900px; width: 1900px; height: 1206px; background: #FFFFFF; opacity: 0.1; }
+  #logo-fim { position: absolute; left: 50%; top: 290px; width: 310px; margin-left: -155px; filter: brightness(0) invert(1); }
+  #trio { position: absolute; left: 0; right: 0; top: 410px; height: 210px; }
+  #trio img { position: absolute; top: 0; width: 210px; height: 210px; border: 9px solid #FFFFFF; border-radius: 50%; }
+  #titulo-fim { top: 640px; font-size: 172px; line-height: 1.08; }
+  #apoio-fim { position: absolute; left: 60px; right: 60px; top: 1040px; font-size: 46px; font-weight: 400; text-align: center; }
+  .botao-fim {
+    position: absolute;
+    left: 50%;
+    top: 1150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    width: 780px;
+    height: 150px;
+    margin-left: -390px;
+    border-radius: 999px;
+    font-size: 64px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  #botao { background: #FFFFFF; color: #1C4193; }
+  #botao-eco { border: 5px solid #FFFFFF; }
+  #bio { position: absolute; left: 0; right: 0; top: 1328px; font-size: 46px; font-weight: 500; text-align: center; }
+</style>
+</head>
+<body>
+<div id="palco">
+  <div id="luz-a" class="luz"></div>
+  <div id="luz-b" class="luz"></div>
+  <div id="xis-fundo" class="xis"></div>
+  <div id="pontos"></div>
+
+  <svg id="ondas" width="1080" height="1920" viewBox="0 0 1080 1920" aria-hidden="true"></svg>
+  <svg id="avatar" viewBox="0 0 1080 1080" aria-hidden="true">
+    <defs>
+      <linearGradient id="degrade" x1="0" y1="0" x2="1" y2="0.55"><stop offset="0" stop-color="#2563EB"/><stop offset="1" stop-color="#7657FF"/></linearGradient>
+      <filter id="branco"><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0"/></filter>
+    </defs>
+    <g id="aneis"></g>
+    <g id="simbolo"><image href="/assets/simbolo-marca.png" x="297" y="445.600" width="486" height="188.800" filter="url(#branco)"/></g>
+  </svg>
+
+  <div id="titulo-a" class="titulo" data-texto="a">
+    <span class="linha"><span>A fila</span></span>
+    <span class="linha"><span>de espera</span></span>
+    <span class="linha"><span class="realce">está aberta.</span></span>
+  </div>
+  <div id="selo" data-texto="a"><span id="selo-ponto"></span><span><strong>Lançamento oficial</strong> em breve</span></div>
+
+  <img class="retrato caio" src="/assets/assessores/caio.svg" alt="">
+  <img class="retrato cris" src="/assets/assessores/cris.svg" alt="">
+  <img class="retrato nina" src="/assets/assessores/nina.svg" alt="">
+  <div class="ficha caio"><span>🛒 Mercado</span><strong>R$ 50,00</strong></div>
+  <div class="ficha cris"><span>📅 Dentista</span><strong>quinta, 15:00</strong></div>
+  <div class="ficha nina"><span>📝 Pagar luz</span><strong>sexta, 15:00</strong></div>
+
+  <div id="titulo-b" class="titulo" data-texto="b">
+    <span class="linha"><span>Garanta seu</span></span>
+    <span class="linha"><span class="realce">acesso</span></span>
+    <span class="linha"><span class="realce">antecipado.</span></span>
+  </div>
+  <p id="apoio-b" data-texto="b">Caio, Cris e Nina: assessores virtuais de dinheiro, agenda e tarefas.</p>
+
+  <div class="passagem" style="background:#1C4193"></div>
+  <div class="passagem" style="background:#2563EB"></div>
+  <div class="passagem" style="background:#5A5AF5"></div>
+
+  <div id="fim">
+    <div id="xis-fim" class="xis"></div>
+    <img id="logo-fim" src="/assets/logo-fundo-escuro.png" alt="">
+    <div id="trio">
+      <img src="/assets/assessores/caio.svg" alt="">
+      <img src="/assets/assessores/cris.svg" alt="">
+      <img src="/assets/assessores/nina.svg" alt="">
+    </div>
+    <div id="titulo-fim" class="titulo" data-texto="c">
+      <span class="linha"><span>Entre</span></span>
+      <span class="linha"><span>na fila.</span></span>
+    </div>
+    <p id="apoio-fim" data-texto="c">Não tem custo e não cria conta.</p>
+    <div id="botao-eco" class="botao-fim"></div>
+    <div id="botao" class="botao-fim" data-texto="c">nuvexx.com.br <span aria-hidden="true">→</span></div>
+    <p id="bio" data-texto="c">Link na bio</p>
+  </div>
+</div>
+
+<script>
+  // Tudo depende só do tempo recebido: o mesmo quadro sai sempre igual.
+  window.DURACAO = 12000;
+  const CENA_B = 3800;
+  const CENA_C = 7700;
+
+  const limitar = (x) => Math.min(1, Math.max(0, x));
+  const entre = (a, b, p) => a + (b - a) * p;
+  const CURVA = {
+    saida: (x) => (x >= 1 ? 1 : 1 - 2 ** (-10 * x)),
+    volta: (x) => { const c = 1.45; return 1 + (c + 1) * (x - 1) ** 3 + c * (x - 1) ** 2; },
+    dupla: (x) => (x < 0.5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2),
+    entrada: (x) => x ** 3,
+    suave: (x) => 1 - (1 - x) ** 3,
+  };
+  const trecho = (t, inicio, duracao, curva = CURVA.saida) => curva(limitar((t - inicio) / duracao));
+  const $ = (seletor) => document.querySelector(seletor);
+  const $$ = (seletor) => [...document.querySelectorAll(seletor)];
+
+  function misturar(de, para, peso) {
+    const canal = (cor, i) => parseInt(cor.slice(1 + i * 2, 3 + i * 2), 16);
+    return `#${[0, 1, 2].map((i) => Math.round(entre(canal(de, i), canal(para, i), peso)).toString(16).padStart(2, '0')).join('')}`;
+  }
+
+  // Os mesmos círculos da foto de perfil, do mais largo para o núcleo.
+  const SVG = 'http://www.w3.org/2000/svg';
+  const ANEIS = [
+    { r: 498, traco: 40, cor: '#4D5A6F', atraso: 400 },
+    { r: 450, cor: '#FFFFFF', atraso: 320 },
+    { r: 402, cor: misturar('#FFFFFF', '#A5B4FC', 0.3), atraso: 240 },
+    { r: 356, cor: misturar('#FFFFFF', '#A5B4FC', 0.62), atraso: 160 },
+    { r: 310, cor: 'url(#degrade)', atraso: 60 },
+  ].map((anel) => {
+    const forma = document.createElementNS(SVG, 'circle');
+    forma.setAttribute('cx', 540);
+    forma.setAttribute('cy', 540);
+    if (anel.traco) {
+      forma.setAttribute('fill', 'none');
+      forma.setAttribute('stroke', anel.cor);
+    } else {
+      forma.setAttribute('fill', anel.cor);
+    }
+    $('#aneis').append(forma);
+    return { ...anel, forma };
+  });
+
+  const ONDAS = [0, 1, 2].map(() => {
+    const forma = document.createElementNS(SVG, 'circle');
+    forma.setAttribute('cx', 540);
+    forma.setAttribute('fill', 'none');
+    forma.setAttribute('stroke', '#A5B4FC');
+    $('#ondas').append(forma);
+    return forma;
+  });
+
+  function mostrarLinhas(seletor, t, entra, sai) {
+    $$(`${seletor} .linha > span`).forEach((linha, i) => {
+      const dentro = trecho(t, entra + i * 110, 680);
+      const fora = sai === undefined ? 0 : trecho(t, sai + i * 50, 340, CURVA.entrada);
+      linha.style.transform = `translateY(${(1 - dentro) * 118 - fora * 118}%)`;
+    });
+  }
+
+  const POSICOES = [230, 540, 850];
+
+  window.quadro = function quadro(t) {
+    // Fundo: a luz passeia devagar.
+    $('#luz-a').style.transform = `translate(${Math.sin(t / 2300) * 130}px, ${Math.cos(t / 2900) * 110}px)`;
+    $('#luz-b').style.transform = `translate(${Math.cos(t / 2600) * 140}px, ${Math.sin(t / 3300) * 120}px)`;
+    $('#xis-fundo').style.transform = `translateX(${-t * 0.03}px)`;
+
+    // Cena A: os círculos se abrem e sobem para dar lugar ao título.
+    const sobe = trecho(t, 1050, 560, CURVA.dupla);
+    const centroY = entre(860, 560, sobe);
+    const escala = entre(0.82, 0.48, sobe) * (1 - trecho(t, CENA_B, 330, CURVA.entrada));
+    const avatar = $('#avatar');
+    avatar.style.display = escala <= 0.002 ? 'none' : 'block';
+    avatar.style.transform = `translate(0px, ${centroY - 540}px) scale(${escala})`;
+    for (const anel of ANEIS) {
+      const p = trecho(t, anel.atraso, 780, CURVA.volta);
+      anel.forma.setAttribute('r', Math.max(0, anel.r * p));
+      if (anel.traco) anel.forma.setAttribute('stroke-width', Math.max(0, anel.traco * p));
+    }
+    const pSimbolo = trecho(t, 360, 620, CURVA.volta);
+    $('#simbolo').setAttribute('transform', `translate(540 540) scale(${Math.max(0, pSimbolo)}) translate(-540 -540)`);
+
+    // As ondas dizem "está aberta": saem do círculo enquanto a cena dura.
+    ONDAS.forEach((onda, i) => {
+      const ciclo = 1500;
+      const passado = t - 1700 - i * (ciclo / 3);
+      const fase = passado < 0 ? 0 : (passado % ciclo) / ciclo;
+      const apaga = 1 - trecho(t, CENA_B - 200, 300, CURVA.suave);
+      onda.setAttribute('cy', centroY);
+      onda.setAttribute('r', 250 + fase * 270);
+      onda.setAttribute('stroke-width', 5 * (1 - fase) + 1);
+      onda.setAttribute('opacity', passado < 0 ? 0 : (1 - fase) ** 2 * 0.55 * apaga);
+    });
+
+    mostrarLinhas('#titulo-a', t, 1180, CENA_B);
+    const selo = trecho(t, 1750, 460, CURVA.suave) * (1 - trecho(t, CENA_B, 200, CURVA.suave));
+    const eloSelo = $('#selo');
+    eloSelo.style.opacity = selo;
+    eloSelo.style.transform = `translate(-50%, ${(1 - selo) * 24}px)`;
+    $('#selo-ponto').style.opacity = 0.45 + 0.55 * (0.5 + 0.5 * Math.cos(t / 320));
+
+    // Cena B: os assessores saem do círculo.
+    $$('.retrato').forEach((retrato, i) => {
+      const p = trecho(t, CENA_B + 110 + i * 90, 700, CURVA.volta);
+      const voo = trecho(t, CENA_B + 110 + i * 90, 620, CURVA.saida);
+      const x = entre(540, POSICOES[i], voo) - 135;
+      const y = entre(560, 450, voo) - 135 + Math.sin((t + i * 700) / 620) * 5;
+      retrato.style.transform = `translate(${x}px, ${y}px) scale(${Math.max(0, p)})`;
+      retrato.style.visibility = p <= 0 ? 'hidden' : 'visible';
+    });
+    $$('.ficha').forEach((ficha, i) => {
+      const p = trecho(t, CENA_B + 480 + i * 110, 560, CURVA.volta);
+      const x = 540 + (i - 1) * 310 - 148;
+      const y = 612 + (1 - limitar(p)) * 40 + Math.sin((t + i * 900) / 700) * 4;
+      ficha.style.opacity = limitar(p * 1.4);
+      ficha.style.transform = `translate(${x}px, ${y}px) scale(${entre(0.88, 1, limitar(p))})`;
+    });
+    mostrarLinhas('#titulo-b', t, CENA_B + 300);
+    const apoioB = trecho(t, CENA_B + 1000, 520, CURVA.suave);
+    $('#apoio-b').style.opacity = apoioB;
+    $('#apoio-b').style.transform = `translateY(${(1 - apoioB) * 22}px)`;
+
+    // Passagem: discos em degraus abrem do centro até cobrir a tela.
+    $$('.passagem').forEach((disco, i) => {
+      const p = trecho(t, CENA_C + i * 70, 640, CURVA.dupla);
+      disco.style.transform = `scale(${p})`;
+    });
+    const abre = trecho(t, CENA_C + 210, 640, CURVA.dupla);
+    const fim = $('#fim');
+    fim.style.clipPath = `circle(${abre * 1200}px at 540px 960px)`;
+    fim.style.visibility = abre <= 0 ? 'hidden' : 'visible';
+
+    // Cena C: a chamada, com tempo para ler.
+    const inicioC = CENA_C + 560;
+    $('#xis-fim').style.transform = `translateX(${-(t - CENA_C) * 0.03}px)`;
+    const logo = trecho(t, inicioC, 520, CURVA.suave);
+    $('#logo-fim').style.opacity = logo;
+    $('#logo-fim').style.transform = `translateY(${(1 - logo) * 22}px)`;
+    $$('#trio img').forEach((foto, i) => {
+      const p = trecho(t, inicioC + 60 + i * 90, 600, CURVA.volta);
+      foto.style.left = `${540 + (i - 1) * 170 - 105}px`;
+      foto.style.transform = `scale(${Math.max(0, p)})`;
+      foto.style.zIndex = i;
+    });
+    mostrarLinhas('#titulo-fim', t, inicioC + 180);
+    const apoioFim = trecho(t, inicioC + 620, 480, CURVA.suave);
+    $('#apoio-fim').style.opacity = apoioFim;
+    $('#apoio-fim').style.transform = `translateY(${(1 - apoioFim) * 20}px)`;
+    const botao = trecho(t, inicioC + 780, 620, CURVA.volta);
+    $('#botao').style.opacity = limitar(botao * 1.5);
+    $('#botao').style.transform = `scale(${Math.max(0, entre(0.8, 1, botao))})`;
+    const passadoEco = t - (inicioC + 1400);
+    const faseEco = passadoEco < 0 ? 0 : (passadoEco % 1100) / 1100;
+    $('#botao-eco').style.opacity = passadoEco < 0 ? 0 : (1 - faseEco) ** 2 * 0.8;
+    $('#botao-eco').style.transform = `scale(${1 + faseEco * 0.1}, ${1 + faseEco * 0.34})`;
+    const bio = trecho(t, inicioC + 1060, 460, CURVA.suave);
+    $('#bio').style.opacity = bio;
+    $('#bio').style.transform = `translateY(${(1 - bio) * 18}px)`;
+  };
+
+  window.pronto = (async () => {
+    await Promise.all([300, 400, 500, 600].map((peso) => document.fonts.load(`${peso} 40px Poppins`)));
+    await Promise.all([...document.images].map((imagem) => imagem.decode().catch(() => {})));
+    window.quadro(0);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# Segredos e dados de quem usa o app: nunca vão para o repositório, que é público.
+.env
+.env.*
+!.env.example
+data/
+
+# Dependências e configuração local do editor.
+node_modules/
+.claude/
+
+# Arquivos do sistema.
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.log

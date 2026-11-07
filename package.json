@@ -1,0 +1,26 @@
+{
+  "name": "nuvexx",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Três assessores virtuais, de finanças, agenda e tarefas, acessados pelo navegador, com WhatsApp e Google opcionais.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/index.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch src/index.js",
+    "ligar": "node scripts/ligar.js",
+    "desligar": "node scripts/desligar.js",
+    "fly:segredos": "node scripts/fly-segredos.js",
+    "fly:whatsapp": "node scripts/fly-segredos.js whatsapp",
+    "test": "node --disable-warning=ExperimentalWarning --test --test-timeout=30000 test/"
+  },
+  "dependencies": {
+    "nodemailer": "^10.3.1",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.15"
+  }
+}

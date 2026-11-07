@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="Três assessores para as suas finanças, a sua agenda e as suas tarefas. Use no navegador, no computador ou no celular.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Nuvexx">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Nuvexx</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/icons/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/icons/icon-180.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/theme.js"></script>
+</head>
+<body>
+  <section id="login" class="login" hidden>
+    <div class="login-pitch">
+      <div class="login-brand">
+        <img class="logo" src="/marca/logo-fundo-escuro.png" alt="Nuvexx" width="1420" height="287">
+      </div>
+      <div class="login-hero">
+        <h1>Seu dinheiro, sua agenda e suas tarefas, em ordem.</h1>
+        <p class="login-tagline">Três assessores virtuais, só para você</p>
+      </div>
+      <ul class="login-points">
+        <li><img class="login-photo" src="/assessores/caio.svg" alt="" width="40" height="40"><span><strong>Caio, Assessor Financeiro</strong><span>entradas, gastos e saldo, mês a mês</span></span></li>
+        <li><img class="login-photo" src="/assessores/cris.svg" alt="" width="40" height="40"><span><strong>Cris, Assessora de Agenda</strong><span>compromissos, lembretes e Google Agenda</span></span></li>
+        <li><img class="login-photo" src="/assessores/nina.svg" alt="" width="40" height="40"><span><strong>Nina, Assessora de Tarefas</strong><span>pendências, horários e aviso 2 horas antes</span></span></li>
+      </ul>
+      <p class="login-trust"><span>Teste grátis</span><span>Seus dados são só seus</span><span>Baixe ou apague quando quiser</span></p>
+    </div>
+    <div class="login-main">
+      <div class="login-panel">
+        <div class="login-brand login-brand-form">
+          <img class="logo" src="/marca/logo-fundo-claro.png" alt="Nuvexx" width="1420" height="287">
+        </div>
+        <div id="auth" class="auth"></div>
+        <div id="dev-box" hidden></div>
+      </div>
+      <p class="login-legal"><a href="/termos">Termos de uso</a> · <a href="/privacidade">Privacidade</a></p>
+    </div>
+  </section>
+
+  <div id="shell" class="shell" hidden>
+    <header class="appbar">
+      <a class="brand" href="#/agenda">
+        <img class="logo logo-on-dark" src="/marca/logo-fundo-escuro.png" alt="Nuvexx" width="1420" height="287">
+        <img class="logo logo-on-light" src="/marca/logo-fundo-claro.png" alt="Nuvexx" width="1420" height="287">
+      </a>
+      <nav id="advisor-switch" class="advisor-switch" aria-label="Assessores"></nav>
+      <div id="appbar-actions" class="appbar-actions"></div>
+    </header>
+    <div class="workspace">
+      <nav id="rail" class="rail" aria-label="Seções"></nav>
+      <main id="view"></main>
+    </div>
+  </div>
+
+  <section id="shared" class="shared" hidden></section>
+
+  <div id="tooltip" class="tooltip" role="status" hidden></div>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
